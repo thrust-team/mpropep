@@ -2,12 +2,10 @@
 ###                EDIT AT OWN RISK                ###
 ## Propellant section
 Propellant
-
 #Propellant with ID 657: NITROUS OXIDE                  
-+657 6000.000000  g
-
++657 6 g
 #Propellant with ID 1032: paraffin 0907                  
-+1032 1000.000000  g
++1032 1 g
 
 ## Frozen performance with area ratio exit condition
 FR
