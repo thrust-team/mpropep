@@ -1,2 +1,2 @@
 # mpropep
-MATLAB wrapper for `crpropep` thermochemical tool
+MATLAB wrapper for `cpropep` thermochemical tool
