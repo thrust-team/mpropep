@@ -8,11 +8,11 @@
 % propellant.dat.
 
 function propellantName = getPropellantFromID(propellantID)
-    % Check that list.txt is in the folder, otherwise generate it.
+    % Check that list.txt is in the folder
     fid = fopen('list.txt', 'r');
     if fid == -1
        [ ~ , ~ ] = dos('cpropep -p > list.txt');
-       error('File list.txt was not found and has now been generated.');
+       error('File list.txt was not found and is now generated.');
     end
 
     % Open file
@@ -29,6 +29,6 @@ function propellantName = getPropellantFromID(propellantID)
     % starts with 0
     output = char(scan{1}(propellantID + 3));
     
-    % Print result, by trimming the ID and enthalpy from the output row
+    % Print result
     propellantName =['Propellant with ID ', num2str(propellantID), ': ', output(6:36)];
 end
