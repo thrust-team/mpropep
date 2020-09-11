@@ -9,9 +9,9 @@
 
 function propellantName = getPropellantFromID(propellantID)
     % Check that list.txt is in the folder, otherwise generate it.
-    fid = fopen('list.txt', 'r');
+    fid = fopen('cpropep/list.txt', 'r');
     if fid == -1
-       [ ~ , ~ ] = dos('cpropep -p > list.txt');
+       [ ~ , ~ ] = dos('cd cpropep && cpropep -p > list.txt');
        error('File list.txt was not found and has now been generated.');
     end
 
