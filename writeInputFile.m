@@ -27,14 +27,22 @@
 % Cpropep accepts 4 pressure units (psi, kPa, atm and bar) and 3
 % temperature units (k, c and f). Inputs in the argument must be in SI,
 % therefore pressure in pascals [Pa] and temperature in kelvins [K].
+
 % Solver TP
+% --- solverArg1: Chamber Pressure [Pa]
+% --- solverArg2: Chamber Temperature [K]
 
 % Solver HP
+% --- solverArg1: Chamber Pressure [Pa]
+% --- solverArg2: gets ignored
 
 % Solver FR_EP and EQ_EP
+% --- solverArg1: Chamber Pressure [Pa]
+% --- solverArg2: Exit Pressure [Pa]
 
 % Solver FR_AR and EQ_AR
-
+% --- solverArg1: Chamber Pressure [Pa]
+% --- solverArg2: Exit Area Ratio [Pa]
 
 function [] = writeInputFile( ...
                                 listPropellantID, ...
@@ -84,28 +92,36 @@ function [] = writeInputFile( ...
     % computation.
     switch solver
         case 'TP'
-            disp(['Solver chosen: ', solver]);            
+            fprintf(inputFile,'\n## Fixed temperature pressure condition\n');
+            fprintf(inputFile,'TP\n');
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
+            fprintf(inputFile,'+chamber_temperature %f k \n', solverArg2);
         case 'HP'
-            disp(['Solver chosen: ', solver]);
+            fprintf(inputFile,'\n## Fixed enthalpy pressure condition\n');
+            fprintf(inputFile,'HP\n');
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
         case 'FR_EP'
-            disp(['Solver chosen: ', solver]);
+            fprintf(inputFile,'\n## Frozen performance with pressure exit condition\n');
+            fprintf(inputFile,'FR\n');
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
+            fprintf(inputFile,'+exit_pressure %f bar \n', solverArg2/1e5); % Pa to bar
         case 'FR_AR'
             fprintf(inputFile,'\n## Frozen performance with area ratio exit condition\n');
             fprintf(inputFile,'FR\n');
-            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5);
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
             fprintf(inputFile,'+supersonic_area_ratio %f \n', solverArg2);
-%             disp(['Solver chosen: Frozen performance with area ratio exit condition']);
         case 'EQ_EP'
-            disp(['Solver chosen: ', solver]);
+            fprintf(inputFile,'\n## Shifting equilibrium performance with pressure exit condition\n');
+            fprintf(inputFile,'EQ\n');
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
+            fprintf(inputFile,'+exit_pressure %f bar \n', solverArg2/1e5); % Pa to bar
         case 'EQ_AR'
             fprintf(inputFile,'\n## Shifting equilibrium performance with area ratio exit condition\n');
             fprintf(inputFile,'EQ\n');
-            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5);
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
             fprintf(inputFile,'+supersonic_area_ratio %f \n', solverArg2);
-%             disp(['Solver chosen: Shifting equilibrium performance with area ratio exit condition']);
         otherwise
-            error(['Solver type not found. Available solvers are', ...
-                ' TP, HP, FR_EP, FR_AR, EQ_EP, EQ_AR.']);
+            error('Solver type not found. Available solvers are TP, HP, FR_EP, FR_AR, EQ_EP, EQ_AR.');
     end
     
     % Close input file
