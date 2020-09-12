@@ -14,9 +14,6 @@ function propellantName = getPropellantFromID(propellantID)
        [ ~ , ~ ] = dos('cd cpropep && cpropep -p > list.txt');
        error('File list.txt was not found and has now been generated.');
     end
-
-    % Open file
-    fid = fopen('cpropep/list.txt');
     
     % Extract rows
     scan = textscan(fid,'%s','delimiter','\n');

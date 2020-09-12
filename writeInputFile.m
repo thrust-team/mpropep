@@ -84,7 +84,7 @@ function [] = writeInputFile( ...
     % name
     for i = 1:n
         fprintf(inputFile, '#%s\r\n', getPropellantFromID(listPropellantID(i)));
-        fprintf(inputFile, '+%d %1.0f %s\r\n', listPropellantID(i), listPropellantMass(i)*1000, 'g');
+        fprintf(inputFile, '+%d %f %s\r\n', listPropellantID(i), listPropellantMass(i)*1000, 'g');
     end
     
     % %%%%%%%%%%%%%%%%%%%% Solver section
