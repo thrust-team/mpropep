@@ -83,7 +83,7 @@ function [] = writeInputFile( ...
     % Write a pair of rows for every propellant with comment and compound
     % name
     for i = 1:n
-        fprintf(inputFile, '#%s\r\n', getPropellantFromID(listPropellantID(i)));
+%         fprintf(inputFile, '#%s\r\n', getPropellantFromID(listPropellantID(i)));
         fprintf(inputFile, '+%d %f %s\r\n', listPropellantID(i), listPropellantMass(i)*1000, 'g');
     end
     
