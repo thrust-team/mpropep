@@ -11,48 +11,66 @@ fuelDensity = 900; % kg/m3
 
 g = 9.80665;
 
-listOF = linspace(2,16, 20);
+listOF = linspace(2, 16, 20);
+listPressure = linspace(20e5, 50e5, 5);
+
 listCStarEQ = zeros(1, length(listOF));
 listCStarFR = zeros(1, length(listOF));
 listCFEQ = zeros(1, length(listOF));
 listCFFR = zeros(1, length(listOF));
-density = (fuelDensity + oxidizerDensity.*listOF)./(1 + listOF);
+%%
+
+% density = (fuelDensity + oxidizerDensity.*listOF)./(1 + listOF);
+density = fuelDensity * 1 ./ ( 1 + listOF ) + oxidizerDensity .* listOF ./ ( 1 + listOF );
 
 %%
-i = 1;
-for OF = listOF
-    listMass = [OF 1]*1e-3;
+j = 1;
+for pressure = listPressure
+    i = 1;
+    for OF = listOF
+        listMass = [OF 1]*1e-3;
 
-    writeInputFile(listPropellantID, listMass, 'EQ_AR', 50e5, 5)
-    runComputation(inputPath, outputPath);
-    output = readOutputFile(outputPath);
-    
-    listCStarEQ(i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
-    listCFEQ(i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
-    
-    writeInputFile(listPropellantID, listMass, 'FR_AR', 50e5, 5)
-    runComputation(inputPath, outputPath);
-    output = readOutputFile(outputPath);
-    
-    listCStarFR(i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
-    listCFFR(i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
-	i = i+1;
+        writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, 5)
+        runComputation(inputPath, outputPath);
+        output = readOutputFile(outputPath);
+
+        listCStarEQ(j,i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
+        listCFEQ(j,i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
+
+        writeInputFile(listPropellantID, listMass, 'FR_AR', pressure, 5)
+        runComputation(inputPath, outputPath);
+        output = readOutputFile(outputPath);
+
+        listCStarFR(j,i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
+        listCFFR(j,i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
+        i = i + 1;
+    end
+    j = j + 1;
 end
+j = j - 1;
 
 %%
 subplot(2,2,1)
-plot(listOF,listCStarEQ)
+plot(listOF,listCStarEQ(1,:), 'r-')
+plot(listOF,listCStarFR(1,:), 'b-')
 hold on
-plot(listOF,listCStarFR)
+for i = 2:j
+plot(listOF,listCStarEQ(i,:), 'r-')
+plot(listOF,listCStarFR(i,:), 'b-')
+end
 hold off
-axis([listOF(1) listOF(end) 1000 1800])
+axis([listOF(1) listOF(end) min(listCStarEQ(1,:))/2 max(listCStarEQ(1,:))*1.5])
 title('Characteristic Velocity [m/s]')
 legend('Shifting Eq.','Frozen')
 
 subplot(2,2,2)
-plot(listOF,listCStarEQ.*listCFEQ/g)
+plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:)/g, 'r-')
+plot(listOF,listCStarFR(1,:).*listCFFR(1,:)/g, 'b-')
 hold on
-plot(listOF,listCStarFR.*listCFFR/g)
+for i = 2:j
+plot(listOF,listCStarEQ(i,:).*listCFEQ(i,:)/g, 'r-')
+plot(listOF,listCStarFR(i,:).*listCFFR(i,:)/g, 'b-')
+end
 hold off
 axis([listOF(1) listOF(end) 100 250])
 title('Normalized Specific Impulse [s]')
@@ -60,12 +78,16 @@ legend('Shifting Eq.','Frozen')
 
 subplot(2,2,3)
 plot(listOF,density)
-title('Density [kg/m^3]')
+title('Average Propellant Density [kg/m^3]')
 
 subplot(2,2,4)
-plot(listOF,listCStarEQ.*listCFEQ.*density)
+plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:).*density, 'r-')
+plot(listOF,listCStarFR(1,:).*listCFFR(1,:).*density, 'b-')
 hold on
-plot(listOF,listCStarFR.*listCFFR.*density)
+for i = 2:j
+plot(listOF,listCStarEQ(i,:).*listCFEQ(i,:).*density, 'r-')
+plot(listOF,listCStarFR(i,:).*listCFFR(i,:).*density, 'b-')
+end
 hold off
 title('Volumetric Specific Impulse [Ns/m^3]')
 legend('Shifting Eq.','Frozen')
