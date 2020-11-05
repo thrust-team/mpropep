@@ -29,3 +29,7 @@ codegen/
 
 # Octave session info
 octave-workspace
+
+# Cpropep input and output files
+input.txt
+output.txt
