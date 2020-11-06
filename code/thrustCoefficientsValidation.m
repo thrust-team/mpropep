@@ -1,3 +1,5 @@
+%% Script to verify getThrustCoefficient as per Shapiro Vol. 1 p. 102 Fig. 4.19
+
 expansionRatios = 10.^linspace(0,3, 1e3);
 ambientPressureRatios = [0 0.001 0.002 0.003 0.005 0.010 0.020 0.030 0.050];
 k = 1.2;
@@ -12,5 +14,7 @@ for pa_p0 = ambientPressureRatios
     hold on
 end
 hold off
+xlabel('Expansion Ratio')
+ylabel('Thrust coefficient')
 grid on
 axis([1 1e3 0 2])
