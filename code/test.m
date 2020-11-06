@@ -9,35 +9,36 @@ outputPath = 'output.txt';
 oxidizerDensity = 688; % kg/m3 liquid phase at 25C
 fuelDensity = 900; % kg/m3
 
+expansionRatio = 5;
+
 g = 9.80665;
 
 listOF = linspace(2, 16, 20);
 listPressure = linspace(20e5, 50e5, 5);
+n = length(listOF);
+listCStarEQ = zeros(1, n);
+listCStarFR = zeros(1, n);
+listCFEQ = zeros(1, n);
+listCFFR = zeros(1, n);
 
-listCStarEQ = zeros(1, length(listOF));
-listCStarFR = zeros(1, length(listOF));
-listCFEQ = zeros(1, length(listOF));
-listCFFR = zeros(1, length(listOF));
-%%
-
-% density = (fuelDensity + oxidizerDensity.*listOF)./(1 + listOF);
+%% Compute average density
 density = fuelDensity * 1 ./ ( 1 + listOF ) + oxidizerDensity .* listOF ./ ( 1 + listOF );
 
-%%
+%% Computation section
 j = 1;
 for pressure = listPressure
     i = 1;
     for OF = listOF
         listMass = [OF 1]*1e-3;
 
-        writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, 5)
+        writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, expansionRatio)
         runComputation(inputPath, outputPath);
         output = readOutputFile(outputPath);
 
         listCStarEQ(j,i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
         listCFEQ(j,i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
 
-        writeInputFile(listPropellantID, listMass, 'FR_AR', pressure, 5)
+        writeInputFile(listPropellantID, listMass, 'FR_AR', pressure, expansionRatio)
         runComputation(inputPath, outputPath);
         output = readOutputFile(outputPath);
 
@@ -49,7 +50,7 @@ for pressure = listPressure
 end
 j = j - 1;
 
-%%
+%% Plotting section
 subplot(2,2,1)
 plot(listOF,listCStarEQ(1,:), 'r-')
 plot(listOF,listCStarFR(1,:), 'b-')
