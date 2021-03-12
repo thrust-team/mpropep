@@ -42,8 +42,8 @@ for pressure = listPressure
         runComputation(inputPath, outputPath);
         output = readOutputFile(outputPath);
 
-        listCStarFR(j,i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
-        listCFFR(j,i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
+        listCStarFR(j,i) = getParamFromOutput(propellantNumber, 'c*', 'FR_AR', output);
+        listCFFR(j,i) = getParamFromOutput(propellantNumber, 'cF', 'FR_AR', output);
         i = i + 1;
     end
     j = j + 1;
