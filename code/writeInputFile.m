@@ -49,7 +49,8 @@ function [] = writeInputFile( ...
                                 listPropellantMass, ...
                                 solver, ...
                                 solverArg1, ...
-                                solverArg2)
+                                solverArg2, ...
+                                path)
     % Number of components in the simulation
     n = length(listPropellantID);
     
@@ -57,17 +58,18 @@ function [] = writeInputFile( ...
     if n < 2
         error('Components must be at least two. Insert component twice if alone.')
     end
-
+    
     % Check that lists are same size
     if length(listPropellantID) ~= length(listPropellantMass)
         error('Number of IDs and masses does not match')
     end
     
-    % Check that cpropep.exe is in the right folder
-    fileCheck('cpropep/cpropep.exe');
-
     % Open input file
-    inputFile = fopen('cpropep/input.txt','w');
+    if path == ""
+        inputFile = fopen('.mpropep\input.txt','w');
+    else
+        inputFile = fopen(path,'w');
+    end
     
     % Premise
     fprintf(inputFile,'### AUTOMATICALLY GENERATED: EDIT AT OWN RISK ###\n');

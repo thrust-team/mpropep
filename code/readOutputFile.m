@@ -1,6 +1,10 @@
 function output = readOutputFile(outputPath)
+    if outputPath == ""
+        outputPath = '.mpropep\output.txt';
+    end
+    
     % Check that output.txt exists
-    fid = fopen(['cpropep/', outputPath], 'r');
+    fid = fopen(outputPath, 'r');
     if fid == -1
        error('Output file does not exist.');
     end
@@ -10,3 +14,6 @@ function output = readOutputFile(outputPath)
     
     % Split in column of cells containing strings
     output = scan{1};
+    
+    % Danger zone
+    fclose('all');

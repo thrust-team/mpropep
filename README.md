@@ -8,14 +8,17 @@ Easier than ever! Just download the files or clone the repo in your favorite fol
 ## Usage example
 Choosing the equilibrium solver with exit area ratio condition, the following code exctracts the characteristic velocity of the combustion of an oxidant and a fuel with a set mass ratio.
 ```
+mpropepPath = pwd; % mpropep initialization
+mkdir .mpropep;
+
 oxidantID = 657; % Dinitrogen monoxide
 fuelID = 1032; % Paraffin
 OFRatio = 7;
 listPropellantID = [oxidantID fuelID];
 listMass = [OFRatio 1];
-writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, expansionRatio)
-runComputation(inputPath, outputPath);
-output = readOutputFile(outputPath);
+writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, expansionRatio, '')
+runComputation('', '', mpropepPath);
+output = readOutputFile('');
 characteristicVelocity = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
 ```
 
