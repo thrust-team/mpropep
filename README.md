@@ -7,7 +7,7 @@ Easier than ever! Just download the files or clone the repo in your favorite fol
 
 ## Usage example
 Choosing the equilibrium solver with exit area ratio condition, the following code extracts the characteristic velocity of the combustion of an oxidant and a fuel with a set mass ratio.
-```
+```matlab
 mpropepPath = pwd; % mpropep initialization
 mkdir .mpropep;
 
