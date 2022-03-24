@@ -110,4 +110,4 @@ plot(listOF,listTccEQ(indexOF,:), 'r-')
 plot(listOF,listTccFR(indexOF,:), 'b-')
 end
 hold off
-title('Flame Temperature [Ns/m^3]')
+title('Flame Temperature [K]')
