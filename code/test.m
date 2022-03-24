@@ -41,6 +41,7 @@ for pressure = listPressure
         listCStarEQ(j,i) = getParamFromOutput(propellantNumber, 'c*', 'EQ_AR', output);
         listCFEQ(j,i) = getParamFromOutput(propellantNumber, 'cF', 'EQ_AR', output);
         listTccEQ(j,i) = getParamFromOutput(propellantNumber, 'flame', 'EQ_AR', output);
+        
         writeInputFile(listPropellantID, listMass, 'FR_AR', pressure, expansionRatio, inputPath)
         runComputation(inputPath, outputPath, mpropepPath);
         output = readOutputFile(outputPath);
@@ -73,6 +74,7 @@ subplot(2,2,2)
 plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:)/g, 'r-')
 plot(listOF,listCStarFR(1,:).*listCFFR(1,:)/g, 'b-')
 hold on
+
 for i = 2:j
 plot(listOF,listCStarEQ(i,:).*listCFEQ(i,:)/g, 'r-')
 plot(listOF,listCStarFR(i,:).*listCFFR(i,:)/g, 'b-')
@@ -107,5 +109,5 @@ plot(listOF,listTccEQ(i,:), 'r-')
 plot(listOF,listTccFR(i,:), 'b-')
 end
 hold off
-title('Volumetric Specific Impulse [Ns/m^3]')
+title('Flame Temperature [Ns/m^3]')
 legend('Shifting Eq.','Frozen')
