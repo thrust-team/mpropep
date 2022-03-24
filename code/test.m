@@ -65,12 +65,14 @@ for indexOF = 2:indexPressure
 plot(listOF,listCStarEQ(indexOF,:), 'r-')
 plot(listOF,listCStarFR(indexOF,:), 'b-')
 end
+legend('','Location', 'best')
+plot([NaN NaN], [NaN NaN], 'Color', 'r', 'DisplayName', "Shifting Eq.")
+plot([NaN NaN], [NaN NaN], 'Color', 'b', 'DisplayName', "Frozen")
 hold off
 axis([listOF(1) listOF(end) min(listCStarEQ(1,:))/2 max(listCStarEQ(1,:))*1.5])
 title('Characteristic Velocity [m/s] vs OF Ratio')
-legend('Shifting Eq.','Frozen')
 
-
+figure(1)
 subplot(2,2,2)
 plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:)/g, 'r-')
 plot(listOF,listCStarFR(1,:).*listCFFR(1,:)/g, 'b-')
@@ -83,7 +85,6 @@ end
 hold off
 axis([listOF(1) listOF(end) 100 250])
 title('Normalized Specific Impulse [s] vs OF Ratio')
-legend('Shifting Eq.','Frozen')
 
 subplot(2,2,3)
 plot(listOF,density)
@@ -99,7 +100,6 @@ plot(listOF,listCStarFR(indexOF,:).*listCFFR(indexOF,:).*density, 'b-')
 end
 hold off
 title('Volumetric Specific Impulse [Ns/m^3]')
-legend('Shifting Eq.','Frozen')
 %%
 figure(2)
 plot(listOF(1),listTccEQ(1,1), 'r-')
@@ -111,4 +111,3 @@ plot(listOF,listTccFR(indexOF,:), 'b-')
 end
 hold off
 title('Flame Temperature [Ns/m^3]')
-legend('Shifting Eq.','Frozen')
