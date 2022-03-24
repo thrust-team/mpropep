@@ -33,14 +33,14 @@ The input file `input.txt` specifies the quantities of the compounds and the con
 To run the program natively, open Command Prompt and move to the folder where `cpropep.exe` resides, for example:
 
 
-``` bat
+```
 c:\> cd c:\Users\user\Documents\GitHub\mpropep\cpropep
 c:\Users\user\Documents\GitHub\mpropep\cpropep> cpropep.exe [-fopq]
 ```
 
 To check if the program works, type:
 
-```bat
+```
 > cpropep.exe -i
 Thermo data file: thermo.dat
 Propellant data file: propellant.dat
@@ -54,7 +54,7 @@ The first two output lines show that the program found the two data files it nee
 
 If the input file is named `input.txt`, the output of the utility will be displayed in the command prompt after typing:
 
-```bat
+```
 > cpropep.exe -f input.txt
 Thermo data file: thermo.dat
 Propellant data file: propellant.dat
@@ -90,7 +90,7 @@ Molar fractions
 ```
 
 In order to save the output to a text file `output.txt` you can write:
-```bat
+```
 > cpropep.exe -f input.txt -o output.txt
 ```
 
