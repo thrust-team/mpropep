@@ -57,7 +57,7 @@ end
 indexPressure = indexPressure - 1;
 
 %% Plotting section
-subplot(2,2,1)
+subplot(1,3,1)
 plot(listOF,listCStarEQ(1,:), 'r-')
 plot(listOF,listCStarFR(1,:), 'b-')
 hold on
@@ -73,7 +73,7 @@ axis([listOF(1) listOF(end) min(listCStarEQ(1,:))/2 max(listCStarEQ(1,:))*1.5])
 title('Characteristic Velocity [m/s] vs OF Ratio')
 
 figure(1)
-subplot(2,2,2)
+subplot(1,3,2)
 plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:)/g, 'r-')
 plot(listOF,listCStarFR(1,:).*listCFFR(1,:)/g, 'b-')
 hold on
@@ -86,11 +86,9 @@ hold off
 axis([listOF(1) listOF(end) 100 250])
 title('Normalized Specific Impulse [s] vs OF Ratio')
 
-subplot(2,2,3)
-plot(listOF,density)
-title('Average Propellant Density [kg/m^3]')
 
-subplot(2,2,4)
+
+subplot(1,3,3)
 plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:).*density, 'r-')
 plot(listOF,listCStarFR(1,:).*listCFFR(1,:).*density, 'b-')
 hold on
@@ -102,6 +100,11 @@ hold off
 title('Volumetric Specific Impulse [Ns/m^3]')
 %%
 figure(2)
+subplot(1,2,1)
+plot(listOF,density)
+title('Average Propellant Density [kg/m^3]')
+
+subplot(1,2,2)
 plot(listOF(1),listTccEQ(1,1), 'r-')
 plot(listOF(1),listTccFR(1,1), 'b-')
 hold on
