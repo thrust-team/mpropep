@@ -1,3 +1,10 @@
+%% Numerical analysis
+% This is an implementation of the Newton-Raphson zero finding
+% algorithm
+
+% Arguments f and df are function handles for the function to find the
+% zero of and its derivative
+
 function xZero = getZeroNewtonRaphson(f, df, x0, tol)
     x = x0;
     err = f(x)/df(x);
