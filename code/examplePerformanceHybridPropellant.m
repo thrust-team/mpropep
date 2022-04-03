@@ -4,6 +4,8 @@ mpropepPath = pwd;
 inputPath = '.mpropep\input.txt';
 outputPath = '.mpropep\output.txt';
 
+addpath('io')
+
 IDs = [657 1032]; % id list of propellants
 pn = length(IDs); % propellant number
 
