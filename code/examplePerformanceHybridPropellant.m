@@ -5,9 +5,11 @@ inputPath = '.mpropep\input.txt';
 outputPath = '.mpropep\output.txt';
 
 addpath('io')
+addpath('gasynamics')
+addpath('num')
 
 IDs = [657 1032]; % id list of propellants
-pn = length(IDs); % propellant number
+pn = length(IDs); % number of propellants
 
 oxidizerDensity = 688; % kg/m3 liquid phase at 25C
 fuelDensity = 900; % kg/m3
@@ -16,8 +18,8 @@ expansionRatio = 5;
 
 g = 9.80665;
 
-listOF       = linspace(2,    16,   3);
-listPressure = linspace(20e5, 50e5, 3);
+listOF       = linspace(5,    15,   31);
+listPressure = linspace(20e5, 50e5, 31);
 
 n = length(listOF);
 listCStarEQ = zeros(1, n);
@@ -31,6 +33,7 @@ listTccFR =   zeros(1, n);
 density = fuelDensity * 1 ./ ( 1 + listOF ) + oxidizerDensity .* listOF ./ ( 1 + listOF );
 
 %% Computation section
+tic
 indexPressure = 1;
 for pressure = listPressure
     indexOF = 1;
@@ -57,62 +60,61 @@ for pressure = listPressure
     indexPressure = indexPressure + 1;
 end
 indexPressure = indexPressure - 1;
+toc
 
 %% Plotting section
-subplot(1,3,1)
-plot(listOF,listCStarEQ(1,:), 'r-')
-plot(listOF,listCStarFR(1,:), 'b-')
-hold on
-for indexOF = 2:indexPressure
-plot(listOF,listCStarEQ(indexOF,:), 'r-')
-plot(listOF,listCStarFR(indexOF,:), 'b-')
-end
-legend('','Location', 'best')
-plot([NaN NaN], [NaN NaN], 'Color', 'r', 'DisplayName', "Shifting Eq.")
-plot([NaN NaN], [NaN NaN], 'Color', 'b', 'DisplayName', "Frozen")
-hold off
-axis([listOF(1) listOF(end) min(listCStarEQ(1,:))/2 max(listCStarEQ(1,:))*1.5])
-title('Characteristic Velocity [m/s] vs OF Ratio')
-
 figure(1)
-subplot(1,3,2)
-plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:)/g, 'r-')
-plot(listOF,listCStarFR(1,:).*listCFFR(1,:)/g, 'b-')
-hold on
+subplot(2,2,1)
 
-for indexOF = 2:indexPressure
-plot(listOF,listCStarEQ(indexOF,:).*listCFEQ(indexOF,:)/g, 'r-')
-plot(listOF,listCStarFR(indexOF,:).*listCFFR(indexOF,:)/g, 'b-')
-end
-hold off
-axis([listOF(1) listOF(end) 100 250])
-title('Normalized Specific Impulse [s] vs OF Ratio')
-
-
-
-subplot(1,3,3)
-plot(listOF,listCStarEQ(1,:).*listCFEQ(1,:).*density, 'r-')
-plot(listOF,listCStarFR(1,:).*listCFFR(1,:).*density, 'b-')
-hold on
-for indexOF = 2:indexPressure
-plot(listOF,listCStarEQ(indexOF,:).*listCFEQ(indexOF,:).*density, 'r-')
-plot(listOF,listCStarFR(indexOF,:).*listCFFR(indexOF,:).*density, 'b-')
-end
-hold off
-title('Volumetric Specific Impulse [Ns/m^3]')
-%%
-figure(2)
-subplot(1,2,1)
-plot(listOF,density)
-title('Average Propellant Density [kg/m^3]')
-
-subplot(1,2,2)
-plot(listOF(1),listTccEQ(1,1), 'r-')
-plot(listOF(1),listTccFR(1,1), 'b-')
+plot(NaN,NaN)
 hold on
 for indexOF = 1:indexPressure
-plot(listOF,listTccEQ(indexOF,:), 'r-')
-plot(listOF,listTccFR(indexOF,:), 'b-')
+    plot(listOF,listCStarEQ(indexOF,:), 'r-')
+    plot(listOF,listCStarFR(indexOF,:), 'b-')
+end
+h = zeros(2, 1);
+h(1) = plot(NaN,NaN,'-r');
+h(2) = plot(NaN,NaN,'-b');
+legend(h, 'Shifting Eq.','Frozen Eq.');
+xlabel('OF Ratio')
+ylabel('Characteristic Velocity [m/s]')
+hold off
+
+subplot(2,2,2)
+
+plot(NaN,NaN)
+hold on
+for indexOF = 1:indexPressure
+    plot(listOF,listCStarEQ(indexOF,:).*listCFEQ(indexOF,:)/g, 'r-')
+    plot(listOF,listCStarFR(indexOF,:).*listCFFR(indexOF,:)/g, 'b-')
 end
 hold off
-title('Flame Temperature [K]')
+xlabel('OF Ratio')
+ylabel('Normalized Specific Impulse [s]')
+
+subplot(2,2,3)
+
+plot(NaN,NaN)
+hold on
+for indexOF = 1:indexPressure
+    plot(listOF,listCStarEQ(indexOF,:).*listCFEQ(indexOF,:).*density, 'r-')
+    plot(listOF,listCStarFR(indexOF,:).*listCFFR(indexOF,:).*density, 'b-')
+end
+hold off
+xlabel('OF Ratio')
+ylabel('Volumetric Specific Impulse [Ns/m^3]')
+
+subplot(2,2,4)
+plot(NaN)
+hold on
+for indexOF = 1:indexPressure
+    plot(listOF,listTccEQ(indexOF,:), 'k-')
+    plot(listOF,listTccFR(indexOF,:), 'k-')
+end
+hold off
+xlabel('OF Ratio')
+ylabel('Flame Temperature [K]')
+
+figure(2)
+plot(listOF,density)
+title('Average Propellant Density [kg/m^3]')
