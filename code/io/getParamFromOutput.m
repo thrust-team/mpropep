@@ -32,21 +32,23 @@ function result = getParamFromOutput(propellantNumber, request, solver, output)
             atm = 101325;
             pressureRow = char(output(m+11));
             pressureChamber = str2double(pressureRow(colChamber))*atm;
-            pressureThroat = str2double(pressureRow(colThroat))*atm;
-            pressureExit = str2double(pressureRow(colExit))*atm;
+%             pressureThroat = str2double(pressureRow(colThroat))*atm;
+%             pressureExit = str2double(pressureRow(colExit))*atm;
+            result = pressureChamber;
         case 'flame'
             % Temperature section
             temperatureRow = char(output(m+12));
             temperatureChamber = str2double(temperatureRow(colChamber));
-            temperatureThroat = str2double(temperatureRow(colThroat));
-            temperatureExit = str2double(temperatureRow(colExit));
+%             temperatureThroat = str2double(temperatureRow(colThroat));
+%             temperatureExit = str2double(temperatureRow(colExit));
             result = temperatureChamber;
         case 'specificheatratio'
             % Cp/Cv section
             specificHeatRatioRow = char(output(m+22));
             specificHeatRatioChamber = str2double(specificHeatRatioRow(colChamber));
-            specificHeatRatioThroat = str2double(specificHeatRatioRow(colThroat));
-            specificHeatRatioExit = str2double(specificHeatRatioRow(colExit));
+%             specificHeatRatioThroat = str2double(specificHeatRatioRow(colThroat));
+%             specificHeatRatioExit = str2double(specificHeatRatioRow(colExit));
+            result = specificHeatRatioChamber;
         case 'c*'
             % c* section
             characteristicVelocityRow = char(output(m+28));
