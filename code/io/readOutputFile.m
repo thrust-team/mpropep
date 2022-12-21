@@ -14,6 +14,9 @@ function output = readOutputFile(outputPath)
     
     % Split in column of cells containing strings
     output = scan{1};
+
+    % remove last row (end of file)
+    output = output(1:end-1);
     
     % Danger zone
     fclose('all');
