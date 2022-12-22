@@ -22,7 +22,7 @@ expansionRatio = 5;
 listPropellantID = [oxidantID fuelID];
 listMass = [OFRatio 1]*1e-3;
 writeInputFile(listPropellantID, listMass, 'EQ_AR', pressure, expansionRatio, '')
-runComputation('', '', mpropepPath);
+runComputation();
 output = readOutputFile('');
-flameTemperature = getParamFromOutput(2, 'flame', 'EQ_AR', output);
+flameTemperature = getParamFromOutput(2, 'flame', 'EQ_AR', output)
 characteristicVelocity = getParamFromOutput(2, 'c*', 'EQ_AR', output);
