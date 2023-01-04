@@ -1,4 +1,9 @@
-function [] = runComputation(varargin)
+function [] = mpropepRun(varargin)
+
+    if mod(length(varargin),2) ~= 0
+        error("fields and specifications should always come in pair")
+    end
+
     workPath = pwd;
     
 %     fprintf('%s\n', workPath);
