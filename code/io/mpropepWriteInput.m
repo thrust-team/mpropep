@@ -1,15 +1,15 @@
 %% Input file creation
 % Sample usage:
-% writeInputFile([657 1032], [6 1], 'FR_AR', 50e5, 5)
-
+% mpropepWriteInput([657 1032], [6 1], 'FR_AR', 50e5, 5)
+%
 % First argument is a list of propellant ID's. 
 % --- listPropellantID: Array of propellant IDs [int]
-
+%
 % Second argument is a list of the quantity to be included in the
 % computation. Cpropep supports only grams or moles as a unit.
 % The unit used for the mass as argument of the function is the SI kilogram.
 % --- listPropellantMass: Array of propellant masses [kg]
-
+%
 % Third argument is the solver type
 % There are four possible problems to be solved by cpropep.
 % * TP for temperature-pressure fixed problems
@@ -21,30 +21,30 @@
 % details.
 % Although cpropep can use multiple solvers with a single input.pro file,
 % this option is not made use of in mpropep library.
-% --- solver: TP, HP, FR_EP, FR_AR, EQ_EP, EQ_AR
-
+% --- solver: TP, PT, HP, FR_EP, FR_AR, EQ_EP, EQ_AR
+%
 % Two additional arguments are left for the different solvers.
 % Cpropep accepts 4 pressure units (psi, kPa, atm and bar) and 3
 % temperature units (k, c and f). Inputs in the argument must be in SI,
 % therefore pressure in pascals [Pa] and temperature in kelvins [K].
-
-% Solver TP
+%
+% Solver TP (PT is the same but with inverse inputs)
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Chamber Temperature [K]
-
+%
 % Solver HP
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: gets ignored
-
+%
 % Solver FR_EP and EQ_EP
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Exit Pressure [Pa]
-
+%
 % Solver FR_AR and EQ_AR
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Exit Area Ratio [Pa]
 
-function [] = writeInputFile( ...
+function [] = mpropepWriteInput( ...
                                 listPropellantID, ...
                                 listPropellantMass, ...
                                 solver, ...
@@ -65,7 +65,7 @@ function [] = writeInputFile( ...
     end
     
     % Open input file
-    if path == ""
+    if ~exist("path","var")
         inputFile = fopen('.mpropep\input.txt','w');
     else
         inputFile = fopen(path,'w');
@@ -73,8 +73,10 @@ function [] = writeInputFile( ...
     
     % Premise
     fprintf(inputFile,'### AUTOMATICALLY GENERATED: EDIT AT OWN RISK ###\n');
+    time = clock;
+    fprintf(inputFile,'## run on %i/%i/%i  %i:%i:%i\n\n',time(1),time(2),time(3),time(4),time(5),round(time(6)));
 
-    % %%%%%%%%%%%%%%%%%%%% Propellant section
+    % %%%%%%%%%%%%%%%%%%%% Propellant section %%%%%%%%%%%%%%%%%%%%
     % The input file should first contain a section named 'Propellant' which
     % contains a list of all substances before the reaction. To get a list of
     % the available substances, you can run "cpropep -p" in cmd or you can
@@ -89,17 +91,22 @@ function [] = writeInputFile( ...
         fprintf(inputFile, '+%d %f %s\r\n', listPropellantID(i), listPropellantMass(i)*1000, 'g');
     end
     
-    % %%%%%%%%%%%%%%%%%%%% Solver section
+    % %%%%%%%%%%%%%%%%%%%% Solver section %%%%%%%%%%%%%%%%%%%%
     % The second part of the input file specifies the solver used in the
     % computation.
-    switch solver
-        case 'TP'
-            fprintf(inputFile,'\n## Fixed temperature pressure condition\n');
+    switch upper(solver)
+        case 'PT'
+            fprintf(inputFile,'\n## Fixed temperature-pressure condition\n');
             fprintf(inputFile,'TP\n');
             fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
             fprintf(inputFile,'+chamber_temperature %f k \n', solverArg2);
+        case 'TP'
+            fprintf(inputFile,'\n## Fixed temperature-pressure condition\n');
+            fprintf(inputFile,'TP\n');
+            fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg2/1e5); % Pa to bar
+            fprintf(inputFile,'+chamber_temperature %f k \n', solverArg1);
         case 'HP'
-            fprintf(inputFile,'\n## Fixed enthalpy pressure condition\n');
+            fprintf(inputFile,'\n## Fixed enthalpy-pressure condition\n');
             fprintf(inputFile,'HP\n');
             fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
         case 'FR_EP'
@@ -123,7 +130,7 @@ function [] = writeInputFile( ...
             fprintf(inputFile,'+chamber_pressure %f bar \n', solverArg1/1e5); % Pa to bar
             fprintf(inputFile,'+supersonic_area_ratio %f \n', solverArg2);
         otherwise
-            error('Solver type not found. Available solvers are TP, HP, FR_EP, FR_AR, EQ_EP, EQ_AR.');
+            error('Solver type not found. Available solvers are TP, PT, HP, FR_EP, FR_AR, EQ_EP, EQ_AR.');
     end
     
     % Close input file

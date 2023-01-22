@@ -4,7 +4,7 @@ Propellant data file: propellant.dat
 1    ACETAMIDE                      -5484.708008
 2    ACETYL TRIETHYL CITRATE        -5262.807617
 3    ACETYLENE (LIQUID)             7728.833008
-4    ACETYLENE (GASEOUS)*           8712.730469
+4    ACETYLENE (GASEOUS)            8712.730469
 5    ACETYLTRIBUTYL CITRATE         -4592.919434
 6    ACRYLAMIDE                     -3152.660400
 7    ACRYLIC ACID         -HC-      -5367.477539
