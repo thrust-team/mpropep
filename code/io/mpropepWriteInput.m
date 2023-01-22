@@ -1,15 +1,15 @@
 %% Input file creation
 % Sample usage:
 % mpropepWriteInput([657 1032], [6 1], 'FR_AR', 50e5, 5)
-
+%
 % First argument is a list of propellant ID's. 
 % --- listPropellantID: Array of propellant IDs [int]
-
+%
 % Second argument is a list of the quantity to be included in the
 % computation. Cpropep supports only grams or moles as a unit.
 % The unit used for the mass as argument of the function is the SI kilogram.
 % --- listPropellantMass: Array of propellant masses [kg]
-
+%
 % Third argument is the solver type
 % There are four possible problems to be solved by cpropep.
 % * TP for temperature-pressure fixed problems
@@ -22,24 +22,24 @@
 % Although cpropep can use multiple solvers with a single input.pro file,
 % this option is not made use of in mpropep library.
 % --- solver: TP, PT, HP, FR_EP, FR_AR, EQ_EP, EQ_AR
-
+%
 % Two additional arguments are left for the different solvers.
 % Cpropep accepts 4 pressure units (psi, kPa, atm and bar) and 3
 % temperature units (k, c and f). Inputs in the argument must be in SI,
 % therefore pressure in pascals [Pa] and temperature in kelvins [K].
-
+%
 % Solver TP (PT is the same but with inverse inputs)
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Chamber Temperature [K]
-
+%
 % Solver HP
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: gets ignored
-
+%
 % Solver FR_EP and EQ_EP
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Exit Pressure [Pa]
-
+%
 % Solver FR_AR and EQ_AR
 % --- solverArg1: Chamber Pressure [Pa]
 % --- solverArg2: Exit Area Ratio [Pa]

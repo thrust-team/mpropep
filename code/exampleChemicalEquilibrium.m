@@ -8,9 +8,9 @@ addpath("gasdynamics")
 addpath("num")
 
 fuelID = getID("methane");
-oxID = getID("nitrous oxide");
+oxID = getID("oxygen (gas)");
 
-O_F_vec = linspace(1,10,50);
+O_F_vec = linspace(1,10,20);
 
 p_cc = 10e5;
 p_e = 1e5;
