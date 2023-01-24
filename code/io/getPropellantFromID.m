@@ -27,5 +27,14 @@ function propellantName = getPropellantFromID(propellantID)
     output = char(scan{1}(propellantID + 3));
     
     % Print result, by trimming the ID and enthalpy from the output row
-    propellantName =['Propellant with ID ', num2str(propellantID), ': ', output(6:36)];
+    propellantString = ['Propellant with ID ', num2str(propellantID), ': ', output(6:36)];
+    % disp(propellantString)
+    temp2 = strtrim(output(6:36));
+    temp1 = '';
+    while ~strcmp(temp1,temp2)
+        temp1=temp2;
+        temp2=regexprep(temp1,'  ',' ');
+    end
+    
+    propellantName = regexprep(temp2,'  ',' ');
 end
