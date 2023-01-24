@@ -36,5 +36,5 @@ function propellantName = getPropellantFromID(propellantID)
         temp2=regexprep(temp1,'  ',' ');
     end
     
-    propellantName = regexprep(temp2,'  ',' ');
+    propellantName = temp2;
 end
