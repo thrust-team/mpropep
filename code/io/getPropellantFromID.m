@@ -25,16 +25,7 @@ function propellantName = getPropellantFromID(propellantID)
     % Note: number 3 is added because 2 rows are skipped and numeration
     % starts with 0
     output = char(scan{1}(propellantID + 3));
+    strings = split(output);
+    propellantName = lower(char(join(strings(2:end-1),' ')));
     
-    % Print result, by trimming the ID and enthalpy from the output row
-    propellantString = ['Propellant with ID ', num2str(propellantID), ': ', output(6:36)];
-    % disp(propellantString)
-    temp2 = strtrim(output(6:36));
-    temp1 = '';
-    while ~strcmp(temp1,temp2)
-        temp1=temp2;
-        temp2=regexprep(temp1,'  ',' ');
-    end
-    
-    propellantName = temp2;
 end
