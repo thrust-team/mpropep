@@ -7,7 +7,10 @@
 % Some compounds get their name cut because they are multiline in
 % propellant.dat.
 
+
 function propellantName = getPropellantFromID(propellantID)
+
+    addpath("../cpropep/")
     % Check that list.txt is in the folder, otherwise generate it.
     fid = fopen('cpropep/list.txt', 'r');
     if fid == -1
