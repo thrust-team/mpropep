@@ -9,7 +9,6 @@ addpath("num\")
 
 if ~exist(".mpropep","dir")
     mkdir .mpropep
-   
 end
 
 mpropepPath = pwd;
@@ -22,6 +21,7 @@ expansionRatio = 5;
 listPropellantID = [oxidantID fuelID];
 listMass = [OFRatio 1]*1e-3;
 
-mpropepWriteInput(listPropellantID, listMass, 'FR_EP',pressure, 1e5)
+mpropepWriteInput(listPropellantID, listMass, 'FR_EP', pressure, 1e5)
 mpropepRun();
 output = mpropepReadOutput();
+temperature = output.chamber.T;
