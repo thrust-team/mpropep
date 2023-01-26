@@ -16,7 +16,8 @@ while true
         fprintf("ID: %i - %s did not match\n", propellantID, propellantName)
     end
     
-    % TODO: 1st commandment is never to hardcode stuff
+    % TODO: 1st commandment is never to hardcode stuff, yet here i am
+    % transgressing
     if propellantID == 1051
         break
     end
