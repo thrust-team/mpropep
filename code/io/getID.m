@@ -14,6 +14,7 @@ function ID = getID(nameToFind)
                 end
                 if string(name) == string(nameToFind)
                     ID = double(string(strings{1}));
+                    fclose(fileID);
                     return
                 end
             end
@@ -36,6 +37,7 @@ function ID = getID(nameToFind)
             disp(line)
             line = fgetl(fileID);
         end
+        fclose(fileID);
     end
     
     % to calculate possible substances if some typo has been made
